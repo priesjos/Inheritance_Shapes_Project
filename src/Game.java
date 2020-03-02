@@ -10,15 +10,15 @@ public class Game extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        /*
-        action listeners and etc. here
-         */
-
         screen = new Screen(this);
         add(screen);
         pack();
         screen.init();
         setLocationRelativeTo(null);
+
+        /*
+        action listeners and etc. here
+         */
     }
 
     public static void main(String[] args){
