@@ -4,19 +4,19 @@ public abstract class Sprite {
 
     Color color;
     int x, y, width, height;
-    double dx, dy;
+    double speed, direction;
 
     Screen screen;
 
-    public Sprite(Color color, int x, int y, int width, int height, Screen screen){
-
+    public Sprite(Color color, int x, int y, double speed, double direction, int width, int height, Screen screen){
         this.color = color;
         this.x = x;
         this.y = y;
+        this.speed = speed;
+        this.direction = direction;
         this.width = width;
         this.height = height;
         this.screen = screen;
-
     }
 
     public Rectangle getBounds(){
@@ -28,10 +28,14 @@ public abstract class Sprite {
     }
 
     public abstract void paint(Graphics g);
-    /*
-    public void move(){
 
-    }*/
+    public void move(){
+        
+    };
+
+    public void rotate(){
+        direction += 5;
+    }
 
     public Color getColor() {
         return color;
@@ -57,6 +61,14 @@ public abstract class Sprite {
         this.y = y;
     }
 
+    public double getSpeed(){
+        return speed;
+    }
+
+    public void setSpeed(int speed){
+        this.speed = speed;
+    }
+
     public int getWidth() {
         return width;
     }
@@ -72,4 +84,6 @@ public abstract class Sprite {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    public abstract void moveFour(int i, int i1);
 }
