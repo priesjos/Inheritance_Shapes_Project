@@ -31,7 +31,7 @@ public abstract class Sprite {
 
     public void move(){
         
-    };
+    }
 
     public void rotate(){
         direction += 5;
