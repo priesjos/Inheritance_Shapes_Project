@@ -13,14 +13,8 @@ public class Wall extends Sprite {
 
     @Override
     public void paint(Graphics g){
-        int wallX = getX();
-        int wallY = getY();
-
-        wallX += (24 * (float)Math.cos(Math.toRadians(direction -90)));
-        wallY += (24 * (float)Math.sin(Math.toRadians(direction -90)));
-
         g.setColor(getColor());
-        g.fillRect(wallX, wallY, getWidth()/2, getHeight()/2);
+        g.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 
     @Override

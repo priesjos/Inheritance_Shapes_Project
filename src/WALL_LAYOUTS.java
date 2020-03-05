@@ -22,16 +22,16 @@ public class WALL_LAYOUTS {
     }
 
     public static void box(ArrayList<Sprite> load, Screen screen){
-        load.add(new Wall(Color.RED, 0, 20, 0, 0, screen.getWidth()*2, 20, screen, false, 0 ));
-        load.add(new Wall(Color.RED, 0, screen.getHeight()+20, 0, 0, screen.getWidth()*2, 20, screen, false, 0));
-        load.add(new Wall(Color.RED, 0, 20, 0, 0, 20, screen.getHeight()*2, screen, false, 0 ));
-        load.add(new Wall(Color.RED, screen.getWidth()-10, 20, 0, 0, 20, screen.getWidth()*2, screen, false, 0));
+        load.add(new Wall(Color.RED, 0, 0, 0, 0, screen.getWidth(), 20, screen, false, 0 ));
+        load.add(new Wall(Color.RED, 0, screen.getHeight()-20, 0, 0, screen.getWidth(), 20, screen, false, 0));
+        load.add(new Wall(Color.RED, 0, 0, 0, 0, 20, screen.getHeight(), screen, false, 0 ));
+        load.add(new Wall(Color.RED, screen.getWidth()-20, 20, 0, 0, 20, screen.getWidth(), screen, false, 0));
     }
 
     public static void branches(ArrayList<Sprite> load, Screen screen){
-        load.add(new Wall(Color.RED, 0, 100, 0, 0, 1600, 20, screen, false, 0));
-        load.add(new Wall(Color.RED, 200, 300, 0, 0, 1600, 20, screen, false, 0));
-        load.add(new Wall(Color.RED, 0, 500, 0, 0, 1600, 20, screen, false, 0));
+        load.add(new Wall(Color.RED, 0, 100, 0, 0, 800, 20, screen, false, 0));
+        load.add(new Wall(Color.RED, 200, 300, 0, 0, 800, 20, screen, false, 0));
+        load.add(new Wall(Color.RED, 0, 500, 0, 0, 800, 20, screen, false, 0));
     }
 
 }
