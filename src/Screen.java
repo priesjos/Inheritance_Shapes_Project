@@ -9,7 +9,7 @@ public class Screen extends JPanel implements ActionListener {
     Game game;
     Timer timer;
     ArrayList<Sprite> actors;
-    int spawnPadding = 40;
+    int spawnPadding = 50;
     long spawnMoment;
     long collideDelay = 400;
     STATS.GAMESTATES state = STATS.GAMESTATES.MENU;
@@ -20,20 +20,34 @@ public class Screen extends JPanel implements ActionListener {
         setBackground(Color.BLACK);
     }
 
+    public void levelOneSetup(){
+        actors.add(new Player(Color.YELLOW, getWidth()-spawnPadding, spawnPadding, 3, 0, 15, 15, this));
+        spawnMoment = System.currentTimeMillis();
+        WALL_LAYOUTS.box(actors, this);
+        WALL_LAYOUTS.branches(actors, this, 100, 5, 100);
+        WALL_LAYOUTS.series(8, (getWidth()/2)-300, getHeight()/2+60, 8, 40, 50, 0, -100,100, 0, actors, this, 1);
+        WALL_LAYOUTS.series(8, (getWidth()/2)-300, getHeight()/2+120, 8, 40, 50, 0, -100,100, 0, actors, this, 1);
+        WALL_LAYOUTS.series(10, (getWidth()/2)-300, getHeight()/2-200, 6,40, 210, -100, 0,100, 0, actors, this, 2);
+        actors.add(new Goal(Color.CYAN, getWidth()-spawnPadding-10, getHeight()-(spawnPadding+10), 0, 0, 35, 35, this));
+    }
+
+    public void levelTwoSetup(){
+        actors.add(new Player(Color.YELLOW, getWidth()-spawnPadding, getHeight()-(spawnPadding+10), 3, 0, 15, 15, this));
+        spawnMoment = System.currentTimeMillis();
+        WALL_LAYOUTS.box(actors, this);
+        WALL_LAYOUTS.verticalBranches(actors, this, 100, 9, 100);
+        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2-120, 1, 25, 50, 0, -100,100, 0, actors, this, 1);
+        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2, 1, 25, 50, 0, -100,100, 0, actors, this, 1);
+        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2+120, 1, 25, 50, 0, -100,100, 0, actors, this, 1);
+        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2+240, 1, 25, 50, 0, -100,100, 0, actors, this, 1);
+
+        actors.add(new Goal(Color.CYAN, spawnPadding-10, getHeight()-(spawnPadding+10), 0, 0, 35, 35, this));
+    }
+
     public void init(){
         actors = new ArrayList<>();
 
-        actors.add(new Player(Color.YELLOW, spawnPadding, spawnPadding, 3, 0, 15, 15, this));
-        spawnMoment = System.currentTimeMillis();
-
-        WALL_LAYOUTS.box(actors, this);
-        WALL_LAYOUTS.branches(actors, this);
-
-
-        WALL_LAYOUTS.shiftingSeries(8, (getWidth()/2)-300, getHeight()/2, 8, 40, 100, 0, -100,100, 0, actors, this, 1);
-        WALL_LAYOUTS.shiftingSeries(8, (getWidth()/2)-300, getHeight()/2+120, 8, 40, 100, 0, -100,100, 0, actors, this, 1);
-
-        WALL_LAYOUTS.shiftingSeries(10, (getWidth()/2)-300, getHeight()/2-200, 8,40, 210, -100, 0,100, 0, actors, this, 2);
+        levelTwoSetup();
 
         timer = new Timer(1000/60, this);
         timer.start();
@@ -83,6 +97,9 @@ public class Screen extends JPanel implements ActionListener {
             if (actors.get(0) instanceof Player && actors.get(0).collidesWith(actors.get(i)) && System.currentTimeMillis() - spawnMoment >= collideDelay){
                 if (actors.get(i) instanceof Wall){
                     state = STATS.GAMESTATES.DEAD;
+                }
+                if (actors.get(i) instanceof Goal){
+                    state = STATS.GAMESTATES.MENU;
                 }
             }
         }

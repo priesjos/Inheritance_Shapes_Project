@@ -29,12 +29,8 @@ public abstract class Sprite {
 
     public abstract void paint(Graphics g);
 
-    public void move(){
-        
-    }
-
-    public void rotate(){
-        direction += 5;
+    public void rotate(int val){
+        direction += val;
     }
 
     public Color getColor() {
