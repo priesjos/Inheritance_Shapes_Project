@@ -21,7 +21,7 @@ public class Screen extends JPanel implements ActionListener {
     }
 
     public void levelOneSetup(){
-        actors.add(new Player(Color.YELLOW, getWidth()-spawnPadding, spawnPadding, 3, 0, 15, 15, this));
+        actors.add(new Player(Color.YELLOW, getWidth()-spawnPadding, spawnPadding, 4, 0, 15, 15, this));
         spawnMoment = System.currentTimeMillis();
         WALL_LAYOUTS.box(actors, this);
         WALL_LAYOUTS.branches(actors, this, 100, 5, 100);
@@ -36,10 +36,10 @@ public class Screen extends JPanel implements ActionListener {
         spawnMoment = System.currentTimeMillis();
         WALL_LAYOUTS.box(actors, this);
         WALL_LAYOUTS.verticalBranches(actors, this, 100, 9, 100);
-        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2-120, 1, 25, 50, 0, -100,100, 0, actors, this, 1);
-        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2, 1, 25, 50, 0, -100,100, 0, actors, this, 1);
-        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2+120, 1, 25, 50, 0, -100,100, 0, actors, this, 1);
-        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2+240, 1, 25, 50, 0, -100,100, 0, actors, this, 1);
+        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2-120, 1, 16, 50, 0, -100,100, 0, actors, this, 1);
+        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2, 1, 16, 50, 0, -100,100, 0, actors, this, 1);
+        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2+120, 1, 16, 50, 0, -100,100, 0, actors, this, 1);
+        WALL_LAYOUTS.series(16, (getWidth()/2)-600, getHeight()/2+240, 1, 16, 50, 0, -100,100, 0, actors, this, 1);
 
         actors.add(new Goal(Color.CYAN, spawnPadding-10, getHeight()-(spawnPadding+10), 0, 0, 35, 35, this));
     }
@@ -47,7 +47,16 @@ public class Screen extends JPanel implements ActionListener {
     public void init(){
         actors = new ArrayList<>();
 
-        levelTwoSetup();
+        switch(STATS.getCurrentLevel()){
+            case 1:
+                levelOneSetup();
+                break;
+            case 2:
+                levelTwoSetup();
+                break;
+            default:
+                System.out.println("aint nothing going on");
+        }
 
         timer = new Timer(1000/60, this);
         timer.start();
@@ -76,6 +85,16 @@ public class Screen extends JPanel implements ActionListener {
                 g.setFont(new Font("Calibri", Font.PLAIN, 28));
                 printString("Click to continue", getWidth(), 0,300, g);
                 break;
+            case TRANSITION:
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Calibri", Font.PLAIN, 40));
+                printString("Passed, click to continue", getWidth(), 0, 200, g);
+                break;
+            case FINISH:
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Calibri", Font.PLAIN, 40));
+                printString("All levels completed", getWidth(), 0, 200, g);
+                break;
             case DEAD:
                 g.setColor(Color.RED);
                 g.setFont(new Font("Calibri", Font.PLAIN, 40));
@@ -99,7 +118,12 @@ public class Screen extends JPanel implements ActionListener {
                     state = STATS.GAMESTATES.DEAD;
                 }
                 if (actors.get(i) instanceof Goal){
-                    state = STATS.GAMESTATES.MENU;
+                    state = STATS.GAMESTATES.TRANSITION;
+                    if (STATS.getCurrentLevel() == STATS.getMaxLevels()){
+                        state = STATS.GAMESTATES.FINISH;
+                    }
+                    STATS.setCurrentLevel(STATS.getCurrentLevel()+1);
+                    init();
                 }
             }
         }
@@ -119,6 +143,13 @@ public class Screen extends JPanel implements ActionListener {
                     break;
                 case PAUSE:
                     state = STATS.GAMESTATES.PLAY;
+                    break;
+                case TRANSITION:
+                    state = STATS.GAMESTATES.PLAY;
+                    break;
+                case FINISH:
+                    break;
+                case DEAD:
                     break;
                 default:
                     System.out.println("ain't doing anything");
@@ -155,6 +186,12 @@ public class Screen extends JPanel implements ActionListener {
                 }
                 break;
             case PAUSE:
+                break;
+            case TRANSITION:
+                break;
+            case FINISH:
+                break;
+            case DEAD:
                 break;
             default:
                 System.out.println("ain't doing anything");
